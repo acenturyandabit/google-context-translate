@@ -1,0 +1,38 @@
+{
+    "manifest_version": 2,
+    "name": "Google Translate Inline",
+    "version": "1.0.2",
+    "description": "Use google translate inline.",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "ctx.js"
+            ],
+            "run_at": "document_start"
+        },
+        {
+            "matches": [
+                "https://translate.google.com/*"
+            ],
+            "js": [
+                "inplace.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "background": {
+        "scripts": [
+            "core.js"
+        ]
+    },
+    "permissions": [
+        "contextMenus",
+        "tabs"
+    ],
+    "icons": {
+        "128": "icon.png"
+    }
+}
