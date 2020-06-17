@@ -7,9 +7,11 @@ chrome.runtime.onInstalled.addListener(function () {
         documentUrlPatterns: ["*://*/*"],
         contexts: ['selection']
     });
-    function ctxResolve(data, pageurl) {
-        chrome.tabs.query({ url: pageurl.split("#")[0] }, function (tabs) { // split at hash because of inline highlights
-            chrome.tabs.sendMessage(tabs[0].id, data);
+    async function ctxResolve(data, pageurl) {
+        return new Promise(resolve => {
+            chrome.tabs.query({ url: pageurl.split("#")[0] }, function (tabs) { // split at hash because of inline highlights
+                chrome.tabs.sendMessage(tabs[0].id, data, (response) => { resolve(response) });
+            });
         });
     }
 
@@ -22,8 +24,10 @@ chrome.runtime.onInstalled.addListener(function () {
     chrome.contextMenus.onClicked.addListener(async function (itemData) {
         if (itemData.menuItemId == "Google translate this selection") {
             if (itemData.selectionText) {
+                let aguid = await ctxResolve({ instantCallback: true }, itemData.pageUrl);
+                aguid = aguid.guid;
                 chrome.tabs.query({ url: "https://translate.google.com/" }, function (tabs) { // split at hash because of inline highlights
-                    chrome.tabs.sendMessage(tabs[0].id, { "toTranslate": itemData.selectionText, pageURL: itemData.pageUrl });
+                    chrome.tabs.sendMessage(tabs[0].id, { "toTranslate": itemData.selectionText, pageURL: itemData.pageUrl, guid: aguid });
                 });
             }
         }
