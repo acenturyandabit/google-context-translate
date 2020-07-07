@@ -17,4 +17,7 @@ Enter Google Chrome Inline Translate. Simply highlight the word/sentence you wan
 
 The project is hosted open source on [a github repository](http://github.com/acenturyandabit/google-context-translate).
 
+A few things that need doing:
+- Get the tooltip to alert the user if no google translate tab is open
+
 If something's annoying you, submit an issue! If you can code, fix some issues! That's the way open source works :3

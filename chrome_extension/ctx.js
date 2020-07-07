@@ -56,6 +56,15 @@
                     }`;
                     document.body.appendChild(s);
                 }
+            } else if (request.alert) {
+                if (confirm(request.alert)) {
+                    let a = document.createElement("a");
+                    a.href = "https://translate.google.com";
+                    a.target = "_blank";
+                    a.click();
+                    //refocus me
+                    sendResponse({"refocus":true});
+                }
             }
         }
     );
